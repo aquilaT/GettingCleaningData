@@ -66,7 +66,7 @@ library(dplyr)
 library(data.table)
 library(tidyr)
 
-# Read SUBJECT, ACTIVITY, DATA files 
+Read SUBJECT, ACTIVITY, DATA files 
 
 filesPath <- "C:/Users/Andrey/Desktop/Coursera John Hopkins Big Data/3_Getting and Cleaning Data/dataset/UCI HAR Dataset"
 
