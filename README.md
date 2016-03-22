@@ -1,10 +1,10 @@
-# This file README.md is describing content of 3 submitted files 
-# for the "getting and cleaning data" Course project 
-# overall I submitted 3 files to github:
+This file README.md is describing content of 3 submitted files 
+for the "getting and cleaning data" Course project 
+overall I submitted 3 files to github:
 
-# (1) run_analysis.R The file has the code for the Course Project 
-# (2) README.md includes assignment description and additional explanation how the script works 
-# (3) CODEBOOK.md describes the variables
+(1) run_analysis.R The file has the code for the Course Project 
+(2) README.md includes assignment description and additional explanation how the script works 
+(3) CODEBOOK.md describes the variables
 
 # also I uploaded:
  
