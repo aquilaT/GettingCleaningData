@@ -71,40 +71,62 @@ Read SUBJECT, ACTIVITY, DATA files
 filesPath <- "C:/Users/Andrey/Desktop/Coursera John Hopkins Big Data/3_Getting and Cleaning Data/dataset/UCI HAR Dataset"
 
 Train <- tbl_df(read.table(file.path(filesPath, "train", "X_train.txt" )))
+
 Test  <- tbl_df(read.table(file.path(filesPath, "test" , "X_test.txt" )))
+
 ActivityTrain <- tbl_df(read.table(file.path(filesPath, "train", "y_train.txt")))
+
 ActivityTest  <- tbl_df(read.table(file.path(filesPath, "test" , "y_test.txt" )))
+
 SubjectTest  <- tbl_df(read.table(file.path(filesPath, "test" , "subject_test.txt" )))
+
 SubjectTrain <- tbl_df(read.table(file.path(filesPath, "train", "subject_train.txt")))
 
 
 # STEP 1. Merges the training and the test sets to create one data set.
 
 MergedSubject <- rbind(SubjectTrain, SubjectTest)
+
 setnames(MergedSubject, "V1", "subject")
+
 MergedActivity<- rbind(ActivityTrain, ActivityTest)
+
 setnames(MergedActivity, "V1", "activityNum")
+
 MergedData <- rbind(Train, Test)
+
 Features <- tbl_df(read.table(file.path(filesPath, "features.txt")))
+
 setnames(Features, names(Features), c("featureNum", "featureName"))
+
 colnames(MergedData) <- Features$featureName
+
 activityLabels <- tbl_df(read.table(file.path(filesPath, "activity_labels.txt")))
+
 setnames(activityLabels, names(activityLabels), c("activityNum","activityName"))
+
 MergedSubject <- cbind(MergedSubject, MergedActivity)
+
 MergedData <- cbind(MergedSubject, MergedData)
 
 
 # STEP 2. Extracts only the measurements on the mean and standard deviation for each measurement.
 
 FeaturesMeanStd <- grep("mean\\(\\)|std\\(\\)",Features$featureName,value=TRUE)
+
 FeaturesMeanStd <- union(c("subject","activityNum"), FeaturesMeanStd)
+
 MergedData <- subset(MergedData, select = FeaturesMeanStd)
+
 
 # STEP 3. Uses descriptive activity names to name the activities in the data set
 
 MergedData <- merge(activityLabels, MergedData , by="activityNum", all.x=TRUE)
+
 MergedData$activityName <- as.character(MergedData$activityName)
+
 dataAggr<- aggregate(. ~ subject - activityName, data = MergedData, mean)
+
 MergedData <- tbl_df(arrange(dataAggr,subject,activityName))
 
 
@@ -114,13 +136,21 @@ MergedData <- tbl_df(arrange(dataAggr,subject,activityName))
 head(str(MergedData),2)
 
 Classes ‘tbl_df’, ‘tbl’ and 'data.frame':       180 obs. of  69 variables:
+
  $ subject                    : int  1 1 1 1 1 1 2 2 2 2 ...
+
  $ activityName               : chr  "LAYING" "SITTING" "STANDING" "WALKING" ...
+
  $ activityNum                : num  6 4 5 1 3 2 6 4 5 1 ...
+
  $ tBodyAcc-mean()-X          : num  0.222 0.261 0.279 0.277 0.289 ...
+
  $ tBodyAcc-mean()-Y          : num  -0.04051 -0.00131 -0.01614 -0.01738 -0.00992 ...
+
  $ tBodyAcc-mean()-Z          : num  -0.113 -0.105 -0.111 -0.111 -0.108 ...
+
  $ tBodyAcc-std()-X           : num  -0.928 -0.977 -0.996 -0.284 0.03 ...
+
  $ tBodyAcc-std()-Y           : num  -0.8368 -0.9226 -0.9732 0.1145 -0.0319 ...
  $ tBodyAcc-std()-Z           : num  -0.826 -0.94 -0.98 -0.26 -0.23 ...
  $ tGravityAcc-mean()-X       : num  -0.249 0.832 0.943 0.935 0.932 ...
@@ -187,23 +217,37 @@ NULL
 
 
 names(MergedData)<-gsub("std()", "SD", names(MergedData))
+
 names(MergedData)<-gsub("mean()", "MEAN", names(MergedData))
+
 names(MergedData)<-gsub("^t", "time", names(MergedData))
+
 names(MergedData)<-gsub("^f", "frequency", names(MergedData))
+
 names(MergedData)<-gsub("Acc", "Accelerometer", names(MergedData))
+
 names(MergedData)<-gsub("Gyro", "Gyroscope", names(MergedData))
+
 names(MergedData)<-gsub("Mag", "Magnitude", names(MergedData))
+
 names(MergedData)<-gsub("BodyBody", "Body", names(MergedData))
 
 
+
 now we check Names after
+
 head(str(MergedData),6)
 
 Classes ‘tbl_df’, ‘tbl’ and 'data.frame':       180 obs. of  69 variables:
+
  $ subject                                       : int  1 1 1 1 1 1 2 2 2 2 ...
+
  $ activityName                                  : chr  "LAYING" "SITTING" "STANDING" "WALKING" ...
+
  $ activityNum                                   : num  6 4 5 1 3 2 6 4 5 1 ...
+
  $ timeBodyAccelerometer-MEAN()-X                : num  0.222 0.261 0.279 0.277 0.289 ...
+
  $ timeBodyAccelerometer-MEAN()-Y                : num  -0.04051 -0.00131 -0.01614 -0.01738 -0.00992 ...
  $ timeBodyAccelerometer-MEAN()-Z                : num  -0.113 -0.105 -0.111 -0.111 -0.108 ...
  $ timeBodyAccelerometer-SD()-X                  : num  -0.928 -0.977 -0.996 -0.284 0.03 ...
