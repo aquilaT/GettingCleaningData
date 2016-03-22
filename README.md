@@ -46,10 +46,15 @@
 
 filesPath <- "C:/Users/Andrey/Desktop/Coursera John Hopkins Big Data/3_Getting and Cleaning Data"
 setwd(filesPath)
+
 if(!file.exists("./dataset")){dir.create("./dataset")}
+
 fileUrl <- "https://d396qusza40orc.cloudfront.net/getdata%2Fprojectfiles%2FUCI%20HAR%20Dataset.zip"
+
 download.file(fileUrl,destfile="./dataset/Data.zip")
+
 unzip(zipfile="./dataset/Data.zip",exdir="./dataset")
+
 
 library(dplyr)
 library(data.table)
@@ -261,7 +266,7 @@ Classes ‘tbl_df’, ‘tbl’ and 'data.frame':       180 obs. of  69 variables:
  $ frequencyBodyGyroscopeJerkMagnitude-MEAN()    : num  -0.942 -0.99 -0.995 -0.319 -0.282 ...
  $ frequencyBodyGyroscopeJerkMagnitude-SD()      : num  -0.933 -0.987 -0.995 -0.382 -0.392 ...
 NULL 
-
+ 
 
 
 # STEP 5. From the data set in step 4, creates a second, 
