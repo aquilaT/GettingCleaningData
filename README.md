@@ -47,10 +47,11 @@ Uses descriptive activity names to name the activities in the data set
 Appropriately labels the data set with descriptive variable names.    
 From the data set in step 4, creates a second, independent tidy data set with the average of each variable for each activity and each subject.
 
-#STEP 0. Loading the data to hard drive.
-setting working directory: 
+##STEP 0. Loading the data to hard drive.
+###setting working directory: 
 
 filesPath <- "C:/Users/Andrey/Desktop/Coursera John Hopkins Big Data/3_Getting and Cleaning Data"
+
 setwd(filesPath)
 
 if(!file.exists("./dataset")){dir.create("./dataset")}
