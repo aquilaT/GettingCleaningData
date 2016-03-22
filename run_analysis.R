@@ -9,7 +9,12 @@ setwd(filesPath)
 if(!file.exists("./dataset")){dir.create("./dataset")}
 fileUrl <- "https://d396qusza40orc.cloudfront.net/getdata%2Fprojectfiles%2FUCI%20HAR%20Dataset.zip"
 download.file(fileUrl,destfile="./dataset/Data.zip")
+
+# unzip file creates automatically new directory "UCI HAR Dataset"
+
 unzip(zipfile="./dataset/Data.zip",exdir="./dataset")
+
+# loading necessary packages
 
 library(dplyr)
 library(data.table)
@@ -19,26 +24,51 @@ library(tidyr)
 
 filesPath <- "C:/Users/Andrey/Desktop/Coursera John Hopkins Big Data/3_Getting and Cleaning Data/dataset/UCI HAR Dataset"
 
+# reading data Files
+
 Train <- tbl_df(read.table(file.path(filesPath, "train", "X_train.txt" )))
 Test  <- tbl_df(read.table(file.path(filesPath, "test" , "X_test.txt" )))
+
+# reading activity files 
+
 ActivityTrain <- tbl_df(read.table(file.path(filesPath, "train", "y_train.txt")))
 ActivityTest  <- tbl_df(read.table(file.path(filesPath, "test" , "y_test.txt" )))
+
+# reading subject files
+
 SubjectTest  <- tbl_df(read.table(file.path(filesPath, "test" , "subject_test.txt" )))
 SubjectTrain <- tbl_df(read.table(file.path(filesPath, "train", "subject_train.txt")))
 
 
 # STEP 1. Merges the training and the test sets to create one data set.
 
+#combine SUBJECT: train and test sets
+
 MergedSubject <- rbind(SubjectTrain, SubjectTest)
 setnames(MergedSubject, "V1", "subject")
+
+#combine ACTIVITY: train and test sets
+
 MergedActivity<- rbind(ActivityTrain, ActivityTest)
 setnames(MergedActivity, "V1", "activityNum")
+
+#combine DATA: train and test sets
+
 MergedData <- rbind(Train, Test)
+
+#assign variables according to features 
+
 Features <- tbl_df(read.table(file.path(filesPath, "features.txt")))
 setnames(Features, names(Features), c("featureNum", "featureName"))
 colnames(MergedData) <- Features$featureName
+
+#col names for activity tables
+
 activityLabels <- tbl_df(read.table(file.path(filesPath, "activity_labels.txt")))
 setnames(activityLabels, names(activityLabels), c("activityNum","activityName"))
+
+# merging columns
+
 MergedSubject <- cbind(MergedSubject, MergedActivity)
 MergedData <- cbind(MergedSubject, MergedData)
 
